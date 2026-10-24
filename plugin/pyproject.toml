@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=70"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vllm-guard"
+version = "0.1.0"
+description = "Логи vLLM без текста запросов и ответов, Bearer-токен на всех маршрутах"
+requires-python = ">=3.11"
+
+[project.entry-points."vllm.general_plugins"]
+private_request_log = "vllm_guard.request_log:register"
+
+[tool.setuptools]
+packages = ["vllm_guard"]
