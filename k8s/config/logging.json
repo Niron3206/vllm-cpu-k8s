@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "disable_existing_loggers": false,
+  "filters": {
+    "drop_sensitive": {
+      "()": "vllm_guard.log_filter.DropSensitive"
+    }
+  },
+  "formatters": {
+    "vllm": {
+      "()": "vllm.logging_utils.NewLineFormatter",
+      "format": "(%(vllm_process_name)s pid=%(process)d) %(levelname)s %(asctime)s [%(fileinfo)s:%(lineno)d] %(message)s",
+      "datefmt": "%m-%d %H:%M:%S"
+    }
+  },
+  "handlers": {
+    "vllm": {
+      "class": "logging.StreamHandler",
+      "formatter": "vllm",
+      "filters": ["drop_sensitive"],
+      "level": "DEBUG",
+      "stream": "ext://sys.stdout"
+    }
+  },
+  "loggers": {
+    "vllm": {
+      "handlers": ["vllm"],
+      "level": "INFO",
+      "propagate": false
+    }
+  }
+}
