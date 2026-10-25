@@ -1,0 +1,16 @@
+# аргументы vllm serve. Путь к модели приходит из MODEL_DIR
+host: 0.0.0.0
+port: 8000
+served-model-name: qwen2.5-1.5b-instruct
+max-model-len: 8192
+max-num-seqs: 32
+max-num-batched-tokens: 2048
+# около 37 тысяч токенов при ~28 КБ на токен
+kv-cache-memory-bytes: 1G
+# torch.compile скорости не даёт, а старт удлиняет на полторы минуты
+enforce-eager: true
+# с vllm_guard сюда пишутся только id и число токеновв без текста
+enable-log-requests: true
+enable-log-outputs: true
+middleware:
+  - vllm_guard.auth.BearerAuth
