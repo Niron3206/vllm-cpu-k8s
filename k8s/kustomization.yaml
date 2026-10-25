@@ -17,8 +17,6 @@ configMapGenerator:
 secretGenerator:
   - name: vllm-secrets
     envs: [secrets.env]
-    options:
-      disableNameSuffixHash: true
 
 images:
   - name: vllm-cpu

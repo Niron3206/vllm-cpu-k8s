@@ -1,9 +1,9 @@
-# аргументы vllm serve. Путь к модели приходит из MODEL_DIR
+# аргументы vllm serve. Путь к модели и имя для API приходят из vllm.env
 host: 0.0.0.0
 port: 8000
-served-model-name: qwen2.5-1.5b-instruct
 max-model-len: 8192
-max-num-seqs: 32
+# под нагрузкой 128 дало в 2.3 раза больше токенов/с, чем 32 (bench/results/exp-a-*)
+max-num-seqs: 128
 max-num-batched-tokens: 2048
 # около 37 тысяч токенов при ~28 КБ на токен
 kv-cache-memory-bytes: 1G
