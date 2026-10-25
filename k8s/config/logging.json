@@ -27,6 +27,11 @@
       "handlers": ["vllm"],
       "level": "INFO",
       "propagate": false
+    },
+    "uvicorn": {
+      "handlers": ["vllm"],
+      "level": "INFO",
+      "propagate": false
     }
   }
 }

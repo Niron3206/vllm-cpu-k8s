@@ -44,6 +44,8 @@ class DropSensitiveTest(unittest.TestCase):
             logging.config.dictConfig(json.load(f))
         handler = logging.getLogger("vllm").handlers[0]
         self.assertTrue(any(isinstance(f, DropSensitive) for f in handler.filters))
+        # vllm отдаёт этот же конфиг uvicorn. Без своего логгера пропадёт access-лог
+        self.assertEqual(logging.getLogger("uvicorn").handlers, [handler])
 
 
 if __name__ == "__main__":
