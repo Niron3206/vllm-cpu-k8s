@@ -10,7 +10,7 @@ ns=llm
 port=${PORT:-8000}
 url=http://127.0.0.1:$port
 token=$(grep '^VLLM_API_KEY=' k8s/secrets.env | cut -d= -f2-)
-model=$(awk '/^served-model-name:/ {print $2}' k8s/config/serve.yaml)
+model=$(grep '^SERVED_MODEL_NAME=' k8s/config/vllm.env | cut -d= -f2-)
 
 kubectl -n "$ns" port-forward svc/vllm "$port:8000" >/dev/null &
 pf=$!

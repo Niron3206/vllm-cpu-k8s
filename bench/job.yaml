@@ -1,0 +1,70 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: vllm-bench
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: vllm-bench
+    spec:
+      restartPolicy: Never
+      automountServiceAccountToken: false
+      enableServiceLinks: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: bench
+          #vllm bench serve той же версии, что и сервер
+          image: vllm-cpu
+          command: ["bash", "/bench/run.sh"]
+          envFrom:
+            - configMapRef:
+                name: vllm-env
+          env:
+            # vllm bench serve берёт Bearer токен отсюда
+            - name: OPENAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: vllm-secrets
+                  key: VLLM_API_KEY
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: [ALL]
+          resources:
+            requests:
+              cpu: "1"
+              memory: 1Gi
+            limits:
+              cpu: "2"
+              memory: 2Gi
+          volumeMounts:
+            # токенизатор для генерации случайных промптов нужной длины
+            - name: models
+              mountPath: /models
+              readOnly: true
+            - name: bench
+              mountPath: /bench
+              readOnly: true
+            - name: home
+              mountPath: /home/vllm
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: models
+          persistentVolumeClaim:
+            claimName: models
+        - name: bench
+          configMap:
+            name: vllm-bench
+        - name: home
+          emptyDir: {}
+        - name: tmp
+          emptyDir: {}

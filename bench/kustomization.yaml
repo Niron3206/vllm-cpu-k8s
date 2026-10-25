@@ -1,0 +1,25 @@
+# оверлей над основным деплоем
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: llm
+
+resources:
+  - ../k8s
+  - job.yaml
+
+configMapGenerator:
+  - name: vllm-bench
+    files: [run.sh, scenarios.txt]
+
+# образ (с тегом) берём у Deployment, чтобы бенч шёл той же версией vllm, что и сервер
+replacements:
+  - source:
+      kind: Deployment
+      name: vllm
+      fieldPath: spec.template.spec.containers.[name=vllm].image
+    targets:
+      - select:
+          kind: Job
+          name: vllm-bench
+        fieldPaths:
+          - spec.template.spec.containers.[name=bench].image

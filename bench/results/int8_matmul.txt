@@ -1,0 +1,19 @@
+symmetric (как у модели)
+  M=    1:     1.7 ms,  1723.5 us/row
+  M=    2:     4.0 ms,  2000.1 us/row
+  M=    4:     6.7 ms,  1674.5 us/row
+  M=    8:    14.7 ms,  1835.4 us/row
+  M=   16:    13.8 ms,   860.4 us/row
+  M=   32:    13.4 ms,   417.5 us/row
+  M=  128:    16.7 ms,   130.8 us/row
+  M=  512:    24.7 ms,    48.3 us/row
+  M= 2048:    61.8 ms,    30.2 us/row
+  M= 8192:   226.9 ms,    27.7 us/row
+asymmetric
+  M=    1:     2.2 ms,  2220.3 us/row
+  M=    2:     4.0 ms,  1980.9 us/row
+  M=    4:     7.2 ms,  1797.0 us/row
+  M=    8:    15.0 ms,  1877.2 us/row
+  M=   16:    14.8 ms,   927.6 us/row
+  M=   32:    15.8 ms,   494.3 us/row
+  M=  128:    16.2 ms,   126.3 us/row
