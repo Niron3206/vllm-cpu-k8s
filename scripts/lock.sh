@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# пересобираем requirements.txt для обоих образов
+# пересобираем requirements.txt для всех образов
 # uv крутится в контейнере
 # уже записанные версии uv сохраняет; обновить всё разом: ./scripts/lock.sh --upgrade
 set -euo pipefail
@@ -27,3 +27,9 @@ uv pip compile docker/downloader/requirements.in \
     --python-version 3.12 --python-platform x86_64-unknown-linux-musl \
     --generate-hashes --quiet "$@" \
     -o docker/downloader/requirements.txt
+
+# веб-чат тоже на alpine
+uv pip compile docker/web/requirements.in \
+    --python-version 3.12 --python-platform x86_64-unknown-linux-musl \
+    --generate-hashes --quiet "$@" \
+    -o docker/web/requirements.txt
