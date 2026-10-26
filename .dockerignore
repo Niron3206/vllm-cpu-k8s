@@ -3,3 +3,4 @@ docs/
 bench/results/
 k8s/secrets.env
 **/__pycache__
+web/secrets.env

@@ -2,3 +2,4 @@ k8s/secrets.env
 docs/
 __pycache__/
 *.pyc
+web/secrets.env
